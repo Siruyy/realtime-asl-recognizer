@@ -1,75 +1,41 @@
-# ASL Static Letter Recognizer (Real-Time)
+# ASL Static Letter Recognizer (A–Y, no J/Z)
 
-Real-time ASL fingerspelling recognizer built with **MediaPipe + TensorFlow**.
+Static ASL fingerspelling recognizer using **MediaPipe + TensorFlow**.
 
-This project recognizes **24 static ASL letters** from webcam input.
-- ✅ Included: static letters (e.g., A, B, C, ...)
-- ❌ Excluded: **J, Z** (motion-based letters)
+- Included: **24 static letters** (`A` to `Y`, excluding `J` and `Z`)
+- Excluded: `J`, `Z` (motion-based letters)
 
-## Current model status
+## Datasets
 
-- Final static model: `models/asl_static_model.h5`
-- Label encoder: `models/static_label_encoder.pkl`
-- Input features: **86 engineered features** from 21 hand landmarks
-- Reported accuracy: **92.74% overall**, **94.28% per-letter average**
+Use these published datasets instead of local repo copies:
 
-## Project structure
+- Kaggle: https://www.kaggle.com/datasets/siruyyy/asl-hand-landmarks-24-letters-v1-a-y-no-jz/data
+- Hugging Face: https://huggingface.co/datasets/Siruyy/asl-static-landmarks-v1
 
-```
-aisl/
-├── src/
-│   ├── hand_detector.py
-│   ├── feature_engineer.py
-│   ├── data_collector.py
-│   ├── data_processor.py
-│   ├── train_static_only.py
-│   ├── analyze_model.py
-│   └── predictor_static.py
-├── models/
-│   ├── asl_static_model.h5
-│   └── static_label_encoder.pkl
-├── data/
-│   ├── processed/
-│   ├── processed_v2/
-│   └── raw/ (ignored by git)
-├── requirements.txt
-└── README.md
-```
+## What is in this repo
 
-## Setup
+- `src/` — training and inference scripts
+- `models/` — model artifacts used by local predictor scripts
+- `requirements.txt` — dependencies for local development
+
+## Quick start
 
 1. Create and activate a virtual environment.
 2. Install dependencies:
 
-	`pip install -r requirements.txt`
+`pip install -r requirements.txt`
 
-## Run live prediction
-
-From project root:
+3. Run live local prediction:
 
 `python3 src/predictor_static.py`
 
 ### Controls
 
 - `q`: quit
-- `+` / `-`: increase/decrease confidence threshold
-
-## Training workflow (optional)
-
-1. Collect data (raw landmarks)
-2. Engineer features and prepare dataset
-3. Train static model
-4. Analyze confusion and per-letter performance
-
-Primary scripts:
-- `src/collect_more_static.py`
-- `src/feature_engineer.py`
-- `src/train_static_only.py`
-- `src/analyze_model.py`
+- `+` / `-`: adjust confidence threshold
 
 ## Notes
 
-- The current recognizer is optimized for **single-hand static poses**.
-- For full alphabet support, add a temporal model (e.g., LSTM/GRU/Transformer) for motion letters **J** and **Z**.
-- Performance depends on lighting, camera quality, and consistent hand positioning.
+- Current pipeline is optimized for **single-hand static poses**.
+- For full alphabet support, add a temporal model for `J` and `Z`.
 
